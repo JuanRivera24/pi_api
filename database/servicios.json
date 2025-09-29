@@ -1,0 +1,92 @@
+[
+ {
+   "ID_Servicio": 201,
+   "Nombre_Servicio": "Corte Premium",
+   "Precio": 25000,
+   "Duracion_min": 45
+ },
+ {
+   "ID_Servicio": 202,
+   "Nombre_Servicio": "Afeitado Clásico",
+   "Precio": 18000,
+   "Duracion_min": 30
+ },
+ {
+   "ID_Servicio": 203,
+   "Nombre_Servicio": "Arreglo de Barba",
+   "Precio": 15000,
+   "Duracion_min": 25
+ },
+ {
+   "ID_Servicio": 204,
+   "Nombre_Servicio": "Ritual Completo (Corte + Barba)",
+   "Precio": 40000,
+   "Duracion_min": 70
+ },
+ {
+   "ID_Servicio": 205,
+   "Nombre_Servicio": "Corte Clásico",
+   "Precio": 20000,
+   "Duracion_min": 40
+ },
+ {
+   "ID_Servicio": 206,
+   "Nombre_Servicio": "Corte Infantil",
+   "Precio": 15000,
+   "Duracion_min": 30
+ },
+ {
+   "ID_Servicio": 207,
+   "Nombre_Servicio": "Perfilado de Cejas",
+   "Precio": 12000,
+   "Duracion_min": 15
+ },
+ {
+   "ID_Servicio": 208,
+   "Nombre_Servicio": "Limpieza Facial Express",
+   "Precio": 22000,
+   "Duracion_min": 25
+ },
+ {
+   "ID_Servicio": 209,
+   "Nombre_Servicio": "Limpieza Facial Profunda",
+   "Precio": 35000,
+   "Duracion_min": 50
+ },
+ {
+   "ID_Servicio": 210,
+   "Nombre_Servicio": "Coloración de Barba",
+   "Precio": 18000,
+   "Duracion_min": 30
+ },
+ {
+   "ID_Servicio": 211,
+   "Nombre_Servicio": "Tinte Capilar",
+   "Precio": 30000,
+   "Duracion_min": 45
+ },
+ {
+   "ID_Servicio": 212,
+   "Nombre_Servicio": "Masaje Capilar Relajante",
+   "Precio": 20000,
+   "Duracion_min": 20
+ },
+ {
+   "ID_Servicio": 213,
+   "Nombre_Servicio": "Exfoliación Facial",
+   "Precio": 28000,
+   "Duracion_min": 30
+ },
+ {
+   "ID_Servicio": 214,
+   "Nombre_Servicio": "Tratamiento Capilar Nutritivo",
+   "Precio": 40000,
+   "Duracion_min": 50
+ },
+ {
+   "ID_Servicio": 215,
+   "Nombre_Servicio": "Paquete Ejecutivo (Corte + Barba + Facial)",
+   "Precio": 60000,
+   "Duracion_min": 90
+ }
+]

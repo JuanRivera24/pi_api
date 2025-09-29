@@ -1,0 +1,17 @@
+[
+  {
+    "clienteId": "user_33Lq6UnHq1VTDsSphn75wxRxkfU",
+    "start": "2025-09-29T16:00:00.000Z",
+    "end": "2025-09-29T17:15:00.000Z",
+    "sedeId": "301",
+    "barberoId": "101",
+    "services": "[201,202]",
+    "sedeName": "C.C Puerta del Norte",
+    "barberoName": "Ricardo Gómez",
+    "serviceNames": [
+      "Corte Premium",
+      "Afeitado Clásico"
+    ],
+    "id": "cita-1759124963998"
+  }
+]

@@ -1,0 +1,26 @@
+[
+ {
+   "ID_Sede": 301,
+   "Nombre_Sede": "C.C Puerta del Norte"
+ },
+ {
+   "ID_Sede": 302,
+   "Nombre_Sede": "C.C Parque Fabricato"
+ },
+ {
+   "ID_Sede": 303,
+   "Nombre_Sede": "C.C La Central"
+ },
+ {
+   "ID_Sede": 304,
+   "Nombre_Sede": "C.C Los Molinos"
+ },
+ {
+   "ID_Sede": 305,
+   "Nombre_Sede": "C.C Santafé"
+ },
+ {
+   "ID_Sede": 306,
+   "Nombre_Sede": "C.C Premium Plaza"
+ }
+]

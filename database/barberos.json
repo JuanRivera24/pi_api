@@ -1,0 +1,542 @@
+[
+ {
+   "ID_Barbero": 101,
+   "Nombre_Barbero": "Ricardo",
+   "Apellido_Barbero": "Gómez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 102,
+   "Nombre_Barbero": "Mateo",
+   "Apellido_Barbero": "Ramírez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 103,
+   "Nombre_Barbero": "Carlos",
+   "Apellido_Barbero": "Fernández",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 104,
+   "Nombre_Barbero": "Andrés",
+   "Apellido_Barbero": "Torres",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 105,
+   "Nombre_Barbero": "Juan",
+   "Apellido_Barbero": "Martínez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 106,
+   "Nombre_Barbero": "Fernando",
+   "Apellido_Barbero": "Castillo",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 107,
+   "Nombre_Barbero": "Luis",
+   "Apellido_Barbero": "Rodríguez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 108,
+   "Nombre_Barbero": "David",
+   "Apellido_Barbero": "Morales",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 109,
+   "Nombre_Barbero": "Santiago",
+   "Apellido_Barbero": "Herrera",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 110,
+   "Nombre_Barbero": "Diego",
+   "Apellido_Barbero": "Sánchez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 111,
+   "Nombre_Barbero": "Esteban",
+   "Apellido_Barbero": "Ríos",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 112,
+   "Nombre_Barbero": "Julián",
+   "Apellido_Barbero": "Vargas",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 113,
+   "Nombre_Barbero": "Alejandro",
+   "Apellido_Barbero": "Navarro",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 118,
+   "Nombre_Barbero": "Valeria",
+   "Apellido_Barbero": "Torres",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 119,
+   "Nombre_Barbero": "Laura",
+   "Apellido_Barbero": "Gutiérrez",
+   "ID_Sede": 301
+ },
+ {
+   "ID_Barbero": 114,
+   "Nombre_Barbero": "Sebastián",
+   "Apellido_Barbero": "Cárdenas",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 115,
+   "Nombre_Barbero": "Jorge",
+   "Apellido_Barbero": "Patiño",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 116,
+   "Nombre_Barbero": "Mauricio",
+   "Apellido_Barbero": "López",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 117,
+   "Nombre_Barbero": "Camilo",
+   "Apellido_Barbero": "Duarte",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 120,
+   "Nombre_Barbero": "Natalia",
+   "Apellido_Barbero": "Jiménez",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 121,
+   "Nombre_Barbero": "Felipe",
+   "Apellido_Barbero": "Mejía",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 122,
+   "Nombre_Barbero": "Tomás",
+   "Apellido_Barbero": "Giraldo",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 123,
+   "Nombre_Barbero": "Cristian",
+   "Apellido_Barbero": "Pérez",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 124,
+   "Nombre_Barbero": "Daniel",
+   "Apellido_Barbero": "Gómez",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 125,
+   "Nombre_Barbero": "Oscar",
+   "Apellido_Barbero": "Mendoza",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 126,
+   "Nombre_Barbero": "Martín",
+   "Apellido_Barbero": "Suárez",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 127,
+   "Nombre_Barbero": "Hernán",
+   "Apellido_Barbero": "Quintero",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 128,
+   "Nombre_Barbero": "Pablo",
+   "Apellido_Barbero": "Vélez",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 129,
+   "Nombre_Barbero": "Andrea",
+   "Apellido_Barbero": "Restrepo",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 130,
+   "Nombre_Barbero": "Gloria",
+   "Apellido_Barbero": "Salazar",
+   "ID_Sede": 302
+ },
+ {
+   "ID_Barbero": 131,
+   "Nombre_Barbero": "Hugo",
+   "Apellido_Barbero": "Rendón",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 132,
+   "Nombre_Barbero": "Ramiro",
+   "Apellido_Barbero": "Jaramillo",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 133,
+   "Nombre_Barbero": "Nicolás",
+   "Apellido_Barbero": "García",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 134,
+   "Nombre_Barbero": "Federico",
+   "Apellido_Barbero": "Marín",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 135,
+   "Nombre_Barbero": "Cristóbal",
+   "Apellido_Barbero": "Zapata",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 136,
+   "Nombre_Barbero": "Rafael",
+   "Apellido_Barbero": "Pérez",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 137,
+   "Nombre_Barbero": "Simón",
+   "Apellido_Barbero": "Cano",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 138,
+   "Nombre_Barbero": "Gustavo",
+   "Apellido_Barbero": "Álvarez",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 139,
+   "Nombre_Barbero": "Iván",
+   "Apellido_Barbero": "Correa",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 140,
+   "Nombre_Barbero": "Álvaro",
+   "Apellido_Barbero": "Cardona",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 141,
+   "Nombre_Barbero": "Pedro",
+   "Apellido_Barbero": "Villegas",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 142,
+   "Nombre_Barbero": "Jairo",
+   "Apellido_Barbero": "Castaño",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 143,
+   "Nombre_Barbero": "Andrés",
+   "Apellido_Barbero": "Ortiz",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 144,
+   "Nombre_Barbero": "Mariana",
+   "Apellido_Barbero": "Londoño",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 145,
+   "Nombre_Barbero": "Camila",
+   "Apellido_Barbero": "Salas",
+   "ID_Sede": 303
+ },
+ {
+   "ID_Barbero": 146,
+   "Nombre_Barbero": "Julián",
+   "Apellido_Barbero": "Mesa",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 147,
+   "Nombre_Barbero": "Samuel",
+   "Apellido_Barbero": "Henao",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 148,
+   "Nombre_Barbero": "Felipe",
+   "Apellido_Barbero": "Córdoba",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 149,
+   "Nombre_Barbero": "Rodrigo",
+   "Apellido_Barbero": "Jiménez",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 150,
+   "Nombre_Barbero": "Germán",
+   "Apellido_Barbero": "Valencia",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 151,
+   "Nombre_Barbero": "Manuel",
+   "Apellido_Barbero": "Mora",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 152,
+   "Nombre_Barbero": "Óscar",
+   "Apellido_Barbero": "Bedoya",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 153,
+   "Nombre_Barbero": "Darío",
+   "Apellido_Barbero": "Restrepo",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 154,
+   "Nombre_Barbero": "Henry",
+   "Apellido_Barbero": "Zuluaga",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 155,
+   "Nombre_Barbero": "Adrián",
+   "Apellido_Barbero": "Castaño",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 156,
+   "Nombre_Barbero": "León",
+   "Apellido_Barbero": "Ortiz",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 157,
+   "Nombre_Barbero": "Jhon",
+   "Apellido_Barbero": "Arango",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 158,
+   "Nombre_Barbero": "Ómar",
+   "Apellido_Barbero": "Muñoz",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 159,
+   "Nombre_Barbero": "Paula",
+   "Apellido_Barbero": "García",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 160,
+   "Nombre_Barbero": "Daniela",
+   "Apellido_Barbero": "Franco",
+   "ID_Sede": 304
+ },
+ {
+   "ID_Barbero": 161,
+   "Nombre_Barbero": "Cristian",
+   "Apellido_Barbero": "Arias",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 162,
+   "Nombre_Barbero": "Jairo",
+   "Apellido_Barbero": "Suárez",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 163,
+   "Nombre_Barbero": "Elkin",
+   "Apellido_Barbero": "Berrío",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 164,
+   "Nombre_Barbero": "Wilson",
+   "Apellido_Barbero": "Ortiz",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 165,
+   "Nombre_Barbero": "Camilo",
+   "Apellido_Barbero": "Gaviria",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 166,
+   "Nombre_Barbero": "Orlando",
+   "Apellido_Barbero": "Sierra",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 167,
+   "Nombre_Barbero": "Sergio",
+   "Apellido_Barbero": "Villa",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 168,
+   "Nombre_Barbero": "Andrés",
+   "Apellido_Barbero": "Muñoz",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 169,
+   "Nombre_Barbero": "Nicolás",
+   "Apellido_Barbero": "Ríos",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 170,
+   "Nombre_Barbero": "Julio",
+   "Apellido_Barbero": "Botero",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 171,
+   "Nombre_Barbero": "Miguel",
+   "Apellido_Barbero": "Salinas",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 172,
+   "Nombre_Barbero": "Iván",
+   "Apellido_Barbero": "Ochoa",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 173,
+   "Nombre_Barbero": "Ramiro",
+   "Apellido_Barbero": "Jiménez",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 174,
+   "Nombre_Barbero": "Liliana",
+   "Apellido_Barbero": "Castro",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 175,
+   "Nombre_Barbero": "Carolina",
+   "Apellido_Barbero": "López",
+   "ID_Sede": 305
+ },
+ {
+   "ID_Barbero": 176,
+   "Nombre_Barbero": "Héctor",
+   "Apellido_Barbero": "Zapata",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 177,
+   "Nombre_Barbero": "Óscar",
+   "Apellido_Barbero": "García",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 178,
+   "Nombre_Barbero": "Mauricio",
+   "Apellido_Barbero": "Quintero",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 179,
+   "Nombre_Barbero": "Álvaro",
+   "Apellido_Barbero": "Pérez",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 180,
+   "Nombre_Barbero": "David",
+   "Apellido_Barbero": "Sierra",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 181,
+   "Nombre_Barbero": "Andrés",
+   "Apellido_Barbero": "Cardona",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 182,
+   "Nombre_Barbero": "Juan",
+   "Apellido_Barbero": "Molina",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 183,
+   "Nombre_Barbero": "Santiago",
+   "Apellido_Barbero": "Ceballos",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 184,
+   "Nombre_Barbero": "Camilo",
+   "Apellido_Barbero": "Agudelo",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 185,
+   "Nombre_Barbero": "Felipe",
+   "Apellido_Barbero": "Vallejo",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 186,
+   "Nombre_Barbero": "Leonardo",
+   "Apellido_Barbero": "Tobón",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 187,
+   "Nombre_Barbero": "Martín",
+   "Apellido_Barbero": "Montoya",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 188,
+   "Nombre_Barbero": "Esteban",
+   "Apellido_Barbero": "Restrepo",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 189,
+   "Nombre_Barbero": "Juliana",
+   "Apellido_Barbero": "Ramírez",
+   "ID_Sede": 306
+ },
+ {
+   "ID_Barbero": 190,
+   "Nombre_Barbero": "Manuela",
+   "Apellido_Barbero": "Jiménez",
+   "ID_Sede": 306
+ }
+]
