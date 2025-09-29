@@ -32,7 +32,7 @@ const readDatabaseFile = async (fileName) => {
   }
 };
 
-// --- ENDPOINTS GET PARA DATOS DEL CALENDARIO ---
+// --- ENDPOINTS GET PARA DATOS GENERALES ---
 app.get('/sedes', async (req, res) => {
   try {
     const sedes = await readDatabaseFile('sedes.json');
@@ -57,10 +57,12 @@ app.get('/servicios', async (req, res) => {
 // --- CRUD COMPLETO PARA CITAS (/citas) ---
 const citasPath = path.join(__dirname, 'database', 'nuevas_citas.json');
 
-// GET: Obtener todas las citas
+// GET: Obtener todas las citas (CON MEJORA DE ORDENAMIENTO)
 app.get('/citas', async (req, res) => {
   try {
     const citas = await readDatabaseFile('nuevas_citas.json');
+    // Ordenamos las citas por fecha de inicio antes de enviarlas
+    citas.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
     res.json(citas);
   } catch (error) { res.status(500).json({ message: 'Error al obtener las citas.' }); }
 });
@@ -72,38 +74,24 @@ app.post('/citas', async (req, res) => {
     if (!sedeId || !barberId || !clienteId || !services || !start || !end) {
       return res.status(400).json({ message: "Faltan campos requeridos para crear la cita." });
     }
-
     const [sedes, barberos, serviciosDb, citas] = await Promise.all([
-      readDatabaseFile('sedes.json'),
-      readDatabaseFile('barberos.json'),
-      readDatabaseFile('servicios.json'),
-      readDatabaseFile('nuevas_citas.json')
+      readDatabaseFile('sedes.json'), readDatabaseFile('barberos.json'),
+      readDatabaseFile('servicios.json'), readDatabaseFile('nuevas_citas.json')
     ]);
-
-    const sedeInfo = sedes.find(s => s.ID_Sede == sedeId);
-    const barberoInfo = barberos.find(b => b.ID_Barbero == barberId);
+    const sedeInfo = sedes.find(s => String(s.ID_Sede) === String(sedeId));
+    const barberoInfo = barberos.find(b => String(b.ID_Barbero) === String(barberId));
     const serviciosIds = JSON.parse(services);
-    const serviciosInfo = serviciosIds.map(id => serviciosDb.find(s => s.ID_Servicio == id)).filter(Boolean);
-
+    const serviciosInfo = serviciosIds.map(id => serviciosDb.find(s => String(s.ID_Servicio) === String(id))).filter(Boolean);
     const newAppointment = {
-      id: `cita_${Date.now()}`,
-      title, start, end, totalCost, clienteId, sedeId, barberId,
+      id: `cita_${Date.now()}`, title, start, end, totalCost, clienteId, sedeId, barberId,
       services: JSON.stringify(serviciosIds),
-      // --- DATOS ENRIQUECIDOS ---
       nombreSede: sedeInfo ? sedeInfo.Nombre_Sede : "Sede desconocida",
       nombreCompletoBarbero: barberoInfo ? `${barberoInfo.Nombre_Barbero} ${barberoInfo.Apellido_Barbero || ''}`.trim() : "Barbero desconocido",
-      serviciosDetalle: serviciosInfo.map(s => ({
-        id: s.ID_Servicio,
-        nombre: s.Nombre_Servicio,
-        precio: s.Precio,
-        duracion: s.Duracion_min
-      }))
+      serviciosDetalle: serviciosInfo.map(s => ({ id: s.ID_Servicio, nombre: s.Nombre_Servicio, precio: s.Precio, duracion: s.Duracion_min }))
     };
-
     citas.push(newAppointment);
     await fs.writeFile(citasPath, JSON.stringify(citas, null, 2), 'utf8');
     res.status(201).json({ message: 'Cita creada con éxito', data: newAppointment });
-
   } catch (error) {
     console.error("Error en POST /citas:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -112,42 +100,38 @@ app.post('/citas', async (req, res) => {
 
 // PUT: Actualizar una cita
 app.put('/citas/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updatedData = req.body;
-        const citas = await readDatabaseFile('nuevas_citas.json');
-        
-        const citaIndex = citas.findIndex(c => c.id === id);
-        if (citaIndex === -1) {
-            return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
-        }
-        citas[citaIndex] = { ...citas[citaIndex], ...updatedData, id: citas[citaIndex].id };
-
-        await fs.writeFile(citasPath, JSON.stringify(citas, null, 2), 'utf8');
-        res.json({ message: 'Cita actualizada con éxito', data: citas[citaIndex] });
-    } catch (error) {
-        console.error(`Error en PUT /citas/${req.params.id}:`, error);
-        res.status(500).json({ message: "Error al actualizar la cita." });
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const citas = await readDatabaseFile('nuevas_citas.json');
+    const citaIndex = citas.findIndex(c => c.id === id);
+    if (citaIndex === -1) {
+      return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
     }
+    citas[citaIndex] = { ...citas[citaIndex], ...updatedData, id: citas[citaIndex].id };
+    await fs.writeFile(citasPath, JSON.stringify(citas, null, 2), 'utf8');
+    res.json({ message: 'Cita actualizada con éxito', data: citas[citaIndex] });
+  } catch (error) {
+    console.error(`Error en PUT /citas/${req.params.id}:`, error);
+    res.status(500).json({ message: "Error al actualizar la cita." });
+  }
 });
 
 // DELETE: Eliminar una cita
 app.delete('/citas/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const citas = await readDatabaseFile('nuevas_citas.json');
-        const citasFiltradas = citas.filter(c => c.id !== id);
-
-        if (citas.length === citasFiltradas.length) {
-            return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
-        }
-
-        await fs.writeFile(citasPath, JSON.stringify(citasFiltradas, null, 2), 'utf8');
-        res.status(200).json({ message: `Cita con ID ${id} eliminada con éxito` });
-    } catch (error) {
-        console.error(`Error en DELETE /citas/${req.params.id}:`, error);
-        res.status(500).json({ message: "Error al eliminar la cita." });
+  try {
+    const { id } = req.params;
+    const citas = await readDatabaseFile('nuevas_citas.json');
+    const citasFiltradas = citas.filter(c => c.id !== id);
+    if (citas.length === citasFiltradas.length) {
+      return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
     }
+    await fs.writeFile(citasPath, JSON.stringify(citasFiltradas, null, 2), 'utf8');
+    res.status(200).json({ message: `Cita con ID ${id} eliminada con éxito` });
+  } catch (error) {
+    console.error(`Error en DELETE /citas/${req.params.id}:`, error);
+    res.status(500).json({ message: "Error al eliminar la cita." });
+  }
 });
 
 // --- Ruta de Contacto (ya existente) ---
@@ -160,8 +144,7 @@ app.post('/contactanos', async (req, res) => {
     }
     const contacts = await readDatabaseFile('contactanos.json');
     const newContact = {
-      id: `msg_${Date.now()}`,
-      nombre: name, email: email, mensaje: message,
+      id: `msg_${Date.now()}`, nombre: name, email: email, mensaje: message,
       fecha: new Date().toISOString(),
     };
     contacts.push(newContact);
