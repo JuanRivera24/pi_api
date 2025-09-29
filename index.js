@@ -1,199 +1,181 @@
+// 1. Importaciones necesarias
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const cors = require('cors');
-const multer = require('multer'); // Importamos multer para la subida de archivos
 
-// --- 1. CONFIGURACIÓN INICIAL ---
+// 2. Inicialización de la aplicación Express
 const app = express();
 const PORT = 3001;
-const dbFolder = path.join(__dirname, 'database');
-const galleryUploadsFolder = path.join(dbFolder, 'uploads', 'gallery');
 
-// Crear carpetas necesarias si no existen (buena práctica)
-fs.mkdirSync(galleryUploadsFolder, { recursive: true });
-
-// --- 2. MIDDLEWARES ---
-app.use(cors({ origin: 'http://localhost:3000' }));
+// 3. Middlewares
+app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
-  console.log(`Petición recibida: ${req.method} ${req.originalUrl}`);
+  console.log(`Solicitud recibida: ${req.method} en ${req.originalUrl}`);
   next();
 });
-// Servir imágenes estáticas de la galería
-app.use('/uploads/gallery', express.static(galleryUploadsFolder));
 
-
-// --- 3. RUTAS DE LA API ---
-
-// Función auxiliar para leer archivos JSON de forma segura
-const readJsonFile = (fileName) => {
-  const filePath = path.join(dbFolder, fileName);
-  if (fs.existsSync(filePath)) {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    return fileContent ? JSON.parse(fileContent) : [];
+// --- FUNCIÓN HELPER PARA LEER ARCHIVOS JSON ---
+const readDatabaseFile = async (fileName) => {
+  const filePath = path.join(__dirname, 'database', fileName);
+  try {
+    const data = await fs.readFile(filePath, 'utf8');
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      await fs.writeFile(filePath, '[]', 'utf8');
+      return [];
+    }
+    console.error(`Error grave al leer ${fileName}:`, error);
+    throw error;
   }
-  return [];
 };
 
-// --- Rutas existentes (Sedes, Barberos, Servicios, Citas) ---
-// (No se modifican)
-app.get('/api/sedes', (req, res) => res.json(readJsonFile('sedes.json')));
-app.get('/api/barberos', (req, res) => res.json(readJsonFile('barberos.json')));
-app.get('/api/servicios', (req, res) => res.json(readJsonFile('servicios.json')));
-const writeCitas = (data) => fs.writeFileSync(path.join(dbFolder, 'nuevas_citas.json'), JSON.stringify(data, null, 2));
-app.get('/api/citas', (req, res) => res.json(readJsonFile('nuevas_citas.json')));
-app.post('/api/citas', (req, res) => {
-    try {
-        const citas = readJsonFile('nuevas_citas.json');
-        const newCita = { ...req.body, id: `cita-${Date.now()}` };
-        citas.push(newCita);
-        writeCitas(citas);
-        console.log('Cita recibida y guardada:', newCita);
-        res.status(201).json({ message: 'Cita creada exitosamente', data: newCita });
-    } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor.' });
-    }
-});
-app.put('/api/citas', (req, res) => {
-    try {
-        const { id, ...updatedData } = req.body;
-        if (!id) return res.status(400).json({ message: 'El ID es requerido.' });
-        let citas = readJsonFile('nuevas_citas.json');
-        const citaIndex = citas.findIndex(c => c.id === id);
-        if (citaIndex === -1) return res.status(404).json({ message: 'Cita no encontrada.' });
-        citas[citaIndex] = { ...citas[citaIndex], ...updatedData };
-        writeCitas(citas);
-        console.log('Cita actualizada:', citas[citaIndex]);
-        res.status(200).json({ message: 'Cita actualizada', data: citas[citaIndex] });
-    } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor.' });
-    }
-});
-app.delete('/api/citas', (req, res) => {
-    try {
-        const { id } = req.body;
-        if (!id) return res.status(400).json({ message: 'El ID es requerido.' });
-        let citas = readJsonFile('nuevas_citas.json');
-        const citasFiltradas = citas.filter(c => c.id !== id);
-        if (citas.length === citasFiltradas.length) return res.status(404).json({ message: 'Cita no encontrada.' });
-        writeCitas(citasFiltradas);
-        res.status(200).json({ message: 'Cita eliminada' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor.' });
-    }
-});
-
-// ===============================================================
-// --- NUEVO: CRUD PARA LA GALERÍA ---
-// ===============================================================
-
-const galleryDbPath = path.join(dbFolder, 'gallery.json');
-const writeGallery = (data) => fs.writeFileSync(galleryDbPath, JSON.stringify(data, null, 2));
-
-// Configuración de Multer para la subida de imágenes
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, galleryUploadsFolder); // Directorio donde se guardan las imágenes
-  },
-  filename: (req, file, cb) => {
-    // Genera un nombre de archivo único para evitar colisiones
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage: storage });
-
-
-// [GET] /api/gallery - Obtener todas las imágenes
-app.get('/api/gallery', (req, res) => {
-  res.json(readJsonFile('gallery.json'));
-});
-
-// [POST] /api/gallery - Subir una nueva imagen
-// 'image' debe coincidir con el nombre del campo en el FormData del frontend
-app.post('/api/gallery', upload.single('image'), (req, res) => {
+// --- ENDPOINTS GET PARA DATOS DEL CALENDARIO ---
+app.get('/sedes', async (req, res) => {
   try {
-    const { description, category } = req.body;
-    if (!req.file || !description || !category) {
-      return res.status(400).json({ message: 'Faltan datos: se requiere imagen, descripción y categoría.' });
+    const sedes = await readDatabaseFile('sedes.json');
+    res.json(sedes);
+  } catch (error) { res.status(500).json({ message: 'Error al obtener las sedes.' }); }
+});
+
+app.get('/barberos', async (req, res) => {
+  try {
+    const barberos = await readDatabaseFile('barberos.json');
+    res.json(barberos);
+  } catch (error) { res.status(500).json({ message: 'Error al obtener los barberos.' }); }
+});
+
+app.get('/servicios', async (req, res) => {
+  try {
+    const servicios = await readDatabaseFile('servicios.json');
+    res.json(servicios);
+  } catch (error) { res.status(500).json({ message: 'Error al obtener los servicios.' }); }
+});
+
+// --- CRUD COMPLETO PARA CITAS (/citas) ---
+const citasPath = path.join(__dirname, 'database', 'nuevas_citas.json');
+
+// GET: Obtener todas las citas
+app.get('/citas', async (req, res) => {
+  try {
+    const citas = await readDatabaseFile('nuevas_citas.json');
+    res.json(citas);
+  } catch (error) { res.status(500).json({ message: 'Error al obtener las citas.' }); }
+});
+
+// POST: Crear una nueva cita (con enriquecimiento de datos)
+app.post('/citas', async (req, res) => {
+  try {
+    const { sedeId, barberId, clienteId, services, totalCost, start, end, title } = req.body;
+    if (!sedeId || !barberId || !clienteId || !services || !start || !end) {
+      return res.status(400).json({ message: "Faltan campos requeridos para crear la cita." });
     }
 
-    const gallery = readJsonFile('gallery.json');
-    const newImage = {
-      id: `img-${Date.now()}`,
-      fileName: req.file.filename,
-      description,
-      category,
+    const [sedes, barberos, serviciosDb, citas] = await Promise.all([
+      readDatabaseFile('sedes.json'),
+      readDatabaseFile('barberos.json'),
+      readDatabaseFile('servicios.json'),
+      readDatabaseFile('nuevas_citas.json')
+    ]);
+
+    const sedeInfo = sedes.find(s => s.ID_Sede == sedeId);
+    const barberoInfo = barberos.find(b => b.ID_Barbero == barberId);
+    const serviciosIds = JSON.parse(services);
+    const serviciosInfo = serviciosIds.map(id => serviciosDb.find(s => s.ID_Servicio == id)).filter(Boolean);
+
+    const newAppointment = {
+      id: `cita_${Date.now()}`,
+      title, start, end, totalCost, clienteId, sedeId, barberId,
+      services: JSON.stringify(serviciosIds),
+      // --- DATOS ENRIQUECIDOS ---
+      nombreSede: sedeInfo ? sedeInfo.Nombre_Sede : "Sede desconocida",
+      nombreCompletoBarbero: barberoInfo ? `${barberoInfo.Nombre_Barbero} ${barberoInfo.Apellido_Barbero || ''}`.trim() : "Barbero desconocido",
+      serviciosDetalle: serviciosInfo.map(s => ({
+        id: s.ID_Servicio,
+        nombre: s.Nombre_Servicio,
+        precio: s.Precio,
+        duracion: s.Duracion_min
+      }))
     };
 
-    gallery.push(newImage);
-    writeGallery(gallery);
+    citas.push(newAppointment);
+    await fs.writeFile(citasPath, JSON.stringify(citas, null, 2), 'utf8');
+    res.status(201).json({ message: 'Cita creada con éxito', data: newAppointment });
 
-    console.log('Imagen subida y guardada:', newImage);
-    res.status(201).json({ message: 'Imagen subida exitosamente', data: newImage });
   } catch (error) {
-    console.error('Error al subir la imagen:', error);
-    res.status(500).json({ message: 'Error interno del servidor.' });
+    console.error("Error en POST /citas:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 });
 
-// [PUT] /api/gallery/:id - Actualizar descripción y categoría de una imagen
-app.put('/api/gallery/:id', (req, res) => {
+// PUT: Actualizar una cita
+app.put('/citas/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { description, category } = req.body;
-        if (!description || !category) {
-            return res.status(400).json({ message: 'Descripción y categoría son requeridas.' });
+        const updatedData = req.body;
+        const citas = await readDatabaseFile('nuevas_citas.json');
+        
+        const citaIndex = citas.findIndex(c => c.id === id);
+        if (citaIndex === -1) {
+            return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
         }
-        
-        let gallery = readJsonFile('gallery.json');
-        const imageIndex = gallery.findIndex(img => img.id === id);
-        
-        if (imageIndex === -1) {
-            return res.status(404).json({ message: 'Imagen no encontrada.' });
-        }
-        
-        gallery[imageIndex] = { ...gallery[imageIndex], description, category };
-        writeGallery(gallery);
-        
-        console.log('Información de imagen actualizada:', gallery[imageIndex]);
-        res.status(200).json({ message: 'Imagen actualizada', data: gallery[imageIndex] });
+        citas[citaIndex] = { ...citas[citaIndex], ...updatedData, id: citas[citaIndex].id };
+
+        await fs.writeFile(citasPath, JSON.stringify(citas, null, 2), 'utf8');
+        res.json({ message: 'Cita actualizada con éxito', data: citas[citaIndex] });
     } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor.' });
+        console.error(`Error en PUT /citas/${req.params.id}:`, error);
+        res.status(500).json({ message: "Error al actualizar la cita." });
     }
 });
 
-// [DELETE] /api/gallery/:id - Eliminar una imagen y su registro
-app.delete('/api/gallery/:id', (req, res) => {
+// DELETE: Eliminar una cita
+app.delete('/citas/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        let gallery = readJsonFile('gallery.json');
-        const imageToDelete = gallery.find(img => img.id === id);
-        
-        if (!imageToDelete) {
-            return res.status(404).json({ message: 'Imagen no encontrada.' });
+        const citas = await readDatabaseFile('nuevas_citas.json');
+        const citasFiltradas = citas.filter(c => c.id !== id);
+
+        if (citas.length === citasFiltradas.length) {
+            return res.status(404).json({ message: `No se encontró la cita con ID ${id}` });
         }
-        
-        // 1. Borrar el archivo físico de la imagen
-        const filePath = path.join(galleryUploadsFolder, imageToDelete.fileName);
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-        }
-        
-        // 2. Filtrar el registro del JSON
-        const updatedGallery = gallery.filter(img => img.id !== id);
-        writeGallery(updatedGallery);
-        
-        console.log('Imagen eliminada, ID:', id);
-        res.status(200).json({ message: 'Imagen eliminada exitosamente' });
+
+        await fs.writeFile(citasPath, JSON.stringify(citasFiltradas, null, 2), 'utf8');
+        res.status(200).json({ message: `Cita con ID ${id} eliminada con éxito` });
     } catch (error) {
-        res.status(500).json({ message: 'Error interno del servidor.' });
+        console.error(`Error en DELETE /citas/${req.params.id}:`, error);
+        res.status(500).json({ message: "Error al eliminar la cita." });
     }
 });
 
+// --- Ruta de Contacto (ya existente) ---
+const contactanosPath = path.join(__dirname, 'database', 'contactanos.json');
+app.post('/contactanos', async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Faltan campos requeridos.' });
+    }
+    const contacts = await readDatabaseFile('contactanos.json');
+    const newContact = {
+      id: `msg_${Date.now()}`,
+      nombre: name, email: email, mensaje: message,
+      fecha: new Date().toISOString(),
+    };
+    contacts.push(newContact);
+    await fs.writeFile(contactanosPath, JSON.stringify(contacts, null, 2), 'utf8');
+    res.status(201).json({ message: 'Mensaje guardado con éxito', data: newContact });
+  } catch (error) {
+    console.error('Error en POST /contactanos:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+});
 
-// --- 4. INICIAR SERVIDOR ---
+// --- Iniciar el servidor ---
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor de API Central corriendo en http://localhost:${PORT}`);
+  console.log('-----------------------------------------');
+  console.log(`🚀 API Central corriendo en http://localhost:${PORT}`);
+  console.log('-----------------------------------------');
 });
